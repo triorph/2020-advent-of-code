@@ -1,4 +1,4 @@
-import tqdm
+import numpy
 
 
 class Day13:
@@ -33,36 +33,65 @@ class Day13:
         ret = self.get_shortest_bus_id()
         return ret[0] * ret[1]
 
-    def _multiply_values(self):
-        mult = 1
-        for i, bus_id in self._data:
-            mult *= bus_id
-        return mult
+    @classmethod
+    def calc_chinese_remainder(cls, a, n):
+        sum = 0
+        prod = numpy.product(n)
+        for _a, _n in zip(a, n):
+            p = int(prod / _n)
+            sum += _a * cls.calc_modular_inverse(p, _n) * p
+        return int(sum) % prod
 
-    def _get_max(self):
-        max_val = 0
-        max_i = 0
-        for i, bus_id in self._data:
-            if bus_id > max_val:
-                max_val = bus_id
-                max_i = i
-        return i, max_val
+    @classmethod
+    def calc_modular_inverse(cls, a, b):
+        x, y = cls.calc_extended_gcd(a, b)
+        if (a * x) % b == 1:
+            return x
+        else:
+            raise RuntimeError("No modular inverse for a mod b", a, b)
+
+    @classmethod
+    def calc_extended_gcd(cls, a, b):
+        if b == 0:
+            return (1, 0)
+        else:
+            q = int(a / b)
+            r = a % b
+            s, t = cls.calc_extended_gcd(b, r)
+            return (t, s - q * t)
 
     def get_calc_b(self):
         """
         looking for values where minute - i % bus_id == 0 for every minute and bus_id
+        can be solved using chinese remainder theorem
+
+        this is equivalent to solving X in the chinese remainder theorem, where
+        x = (bus_id - minute) % bus_id
         """
-        max_ticks = self._multiply_values()
-        jump_index, jump_size = self._get_max()
-        for i in tqdm.tqdm(range(0, max_ticks, jump_size)):
-            ticks = i + jump_index
-            found = True
-            for minute, bus_id in self._data:
-                if (i + minute) % bus_id != 0:
-                    found = False
-                    break
-            if found:
-                return i
+        a = []
+        n = []
+        data = sorted(self._data, reverse=True, key=lambda x: x[1])[0:9]
+        for (
+            minute,
+            bus_id,
+        ) in data:
+            a.append((bus_id - int(minute)) % bus_id)
+            n.append(int(bus_id))
+        x = self.calc_chinese_remainder(a, n)
+        self._validate_number(x, data)
+        return x
+
+    def _validate_number(self, x, data):
+        """Complain if the number we generated gives us the wrong results"""
+        incorrections = []
+        for minute, bus_id in data:
+            if (x + minute) % bus_id != 0:
+                incorrections.append(
+                    "x + {} % {} = {}".format(minute, bus_id, (x + minute) % bus_id)
+                )
+        print(incorrections)
+        if len(incorrections) > 0:
+            raise Exception("Incorrect number generated for this dataset")
 
 
 if __name__ == "__main__":
