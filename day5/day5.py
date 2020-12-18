@@ -21,7 +21,7 @@ class BinaryPlaneSearch:
         with open(filename, "r") as f:
             lines = f.readlines()
         for line in lines:
-            self._plane_tickets.append(BinaryPlaneDecoder.decode_line(line)[2])
+            self._plane_ticket_ids.append(BinaryPlaneDecoder.decode_line(line)[2])
 
     def find_highest_ticket(self):
         max_id = 0
