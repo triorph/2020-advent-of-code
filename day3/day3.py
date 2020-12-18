@@ -31,9 +31,17 @@ class Mapper:
         multiply = 1
         for delta in deltas:
             multiply *= self.count_trees(start_pos, delta)
-        print(f"Multiplied result for all moves is {multiply}")
+        return multiply
+
+    def day_a(self):
+        return self.multiply_tree_counts((0, 0), [(3, 1)])
+
+    def day_b(self):
+        deltas = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
+        return self.multiply_tree_counts((0, 0), deltas)
 
 
 if __name__ == "__main__":
-    deltas = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
-    Mapper("input_data.txt").multiply_tree_counts((0, 0), deltas)
+    d3 = Mapper("input_data.txt")
+    print("d3a:", d3.day_a())
+    print("d3b:", d3.day_b())
