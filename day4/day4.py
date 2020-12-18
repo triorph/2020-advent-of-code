@@ -40,7 +40,6 @@ class DayBPassportValidator:
     @staticmethod
     def _validate_hair_colour(hair_colour_str):
         if len(hair_colour_str) != 7 or hair_colour_str[0] != "#":
-            print("hair colour failed because start conditions")
             return False
         for c in hair_colour_str[1:]:
             if c not in [
@@ -91,12 +90,9 @@ class DayBPassportValidator:
         }
         for key in VALIDATOR_ALGORITHMS:
             if key not in passport:
-                print(f"Failed passport on missing key {key}")
                 return False
             if not VALIDATOR_ALGORITHMS[key](passport[key].strip()):
-                print(f"Failing passport on {key}, {passport[key]}")
                 return False
-        print(f"Passing passport because nothing fialed")
         return True
 
 
@@ -137,16 +133,17 @@ class PassportValidator:
         for passport in self._passports:
             count += self.validate_passport_a(passport)
 
-        print(f"counted {count} valid passports")
+        return count
 
     def validate_passports_b(self):
         count = 0
         for passport in self._passports:
             count += self.validate_passport_b(passport)
 
-        print(f"counted {count} valid passports")
+        return count
 
 
 if __name__ == "__main__":
-    PassportValidator("input_data.txt").validate_passports_a()
-    PassportValidator("input_data.txt").validate_passports_b()
+    d4 = PassportValidator("input_data.txt")
+    print("d4a:", d4.validate_passports_a())
+    print("d4b:", d4.validate_passports_b())
