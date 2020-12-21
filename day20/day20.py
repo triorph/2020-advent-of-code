@@ -260,10 +260,11 @@ class TileMatcherDay20:
                 print("should be done")
 
     def build_image(self):
+        print("building image", [len(tiles_row) for tiles_row in self._ordered_tiles])
         self._image = [
             list("".join([tiles_row[j].tile[i][1:9] for j in range(len(tiles_row))]))
-            for i in range(1, 9)
             for tiles_row in self._ordered_tiles
+            for i in range(1, 9)
         ]
 
     def _flip_image_horizontally(self):
@@ -294,9 +295,9 @@ class TileMatcherDay20:
                     dragons = self.find_dragons()
                     if dragons > 0:
                         print("found ", dragons, "dragons")
-                        print(
-                            "total waves:", sum([row.count("#") for row in self._image])
-                        )
+                        waves = sum([row.count("#") for row in self._image])
+                        print("total waves:", waves)
+                        return waves
                         self._replace_o_with_hash()
                         self._rotate_image_90()
                     else:
