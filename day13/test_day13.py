@@ -1,5 +1,8 @@
 import unittest
-from .day13 import Day13
+import os
+from day13.day13 import Day13
+
+FILEPATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), "input_data.txt")
 
 
 class TestCRT(unittest.TestCase):
@@ -20,31 +23,31 @@ class TestCRT(unittest.TestCase):
         self.assertEqual(Day13.calc_chinese_remainder(a, n), 1068781)
 
     def test_calc_b(self):
-        d13 = Day13("input_data.txt")
+        d13 = Day13(FILEPATH)
         d13._data = [(0, 7), (1, 13), (4, 59), (6, 31), (7, 19)]
         self.assertEqual(d13.get_calc_b(), 1068781)
 
     def test_calc_b_2(self):
-        d13 = Day13("input_data.txt")
+        d13 = Day13(FILEPATH)
         d13._data = [(0, 17), (2, 13), (3, 19)]
         self.assertEqual(d13.get_calc_b(), 3417)
 
     def test_calc_b_3(self):
-        d13 = Day13("input_data.txt")
+        d13 = Day13(FILEPATH)
         d13._data = [(0, 67), (1, 7), (2, 59), (3, 61)]
         self.assertEqual(d13.get_calc_b(), 754018)
 
     def test_calc_b_4(self):
-        d13 = Day13("input_data.txt")
+        d13 = Day13(FILEPATH)
         d13._data = [(0, 67), (2, 7), (3, 59), (4, 61)]
         self.assertEqual(d13.get_calc_b(), 779210)
 
     def test_calc_b_5(self):
-        d13 = Day13("input_data.txt")
+        d13 = Day13(FILEPATH)
         d13._data = [(0, 67), (1, 7), (3, 59), (4, 61)]
         self.assertEqual(d13.get_calc_b(), 1261476)
 
     def test_calc_b_6(self):
-        d13 = Day13("input_data.txt")
+        d13 = Day13(FILEPATH)
         d13._data = [(0, 1789), (1, 37), (2, 47), (3, 1889)]
         self.assertEqual(d13.get_calc_b(), 1202161486)
