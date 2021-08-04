@@ -15,14 +15,15 @@ class Day1:
         self._numbers = [int(line) for line in lines]
 
     def get_values(self, total, quantity):
+        """Get the <quantity> numbers in data that sum to total"""
         for numbers in itertools.combinations(self._numbers, quantity):
             if sum(numbers) == total:
                 return numbers
-        return 0, 0, 0
+        raise ValueError("No data exists to sum to: " + str(quantity))
 
     def get_multiplication(self, total, quantity):
+        """Get the product of <quantity> numbers in data that sum to total"""
         numbers = self.get_values(total, quantity)
-        print("Got values", numbers)
         return numpy.product(numbers)
 
 
