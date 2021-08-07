@@ -4,6 +4,13 @@ import numpy
 
 
 class Day1:
+    """
+    Do the day 1 advent of code challenge.
+
+    a) From a list of numbers, find which 2 add to 2020, and return their product
+    b) From a list of numbers, find which 3 add to 2020, and return their product
+    """
+
     def __init__(self, filename):
         self._numbers = []
         self._build_data(filename)

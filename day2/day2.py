@@ -1,4 +1,15 @@
 class PasswordChecker:
+    """
+    Day 2 of the advent of code challenge
+
+    passwords are in a format:
+        "<low>-<high> <letter>: <password>"
+    For day a. A password is valid if:
+        - the number of instances of <letter> is inclusively within <low> and <high>
+    For day b. A password is valid if:
+        - Either of (but not both of) the letters at index positions <low> and <high> (counting from 1) are <letter>
+    """
+
     def __init__(self, filename):
         self._lines = []
         self._build_data(filename)
